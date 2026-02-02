@@ -42,13 +42,13 @@ func ParseName(name string) (*MrzName, error) {
 	strArr := strings.Split(name, "  ")
 
 	switch len(strArr) {
+	case 0:
+		return nil, fmt.Errorf("[ParseName] Incorrect number of name components: %d", len(strArr))
 	case 1:
 		out.Primary = strArr[0]
-	case 2:
+	default: // len >= 2
 		out.Primary = strArr[0]
-		out.Secondary = strArr[1]
-	default:
-		return nil, fmt.Errorf("[ParseName] Incorrect number of name components: %d", len(strArr))
+		out.Secondary = strings.Join(strArr[1:], " ")
 	}
 
 	return &out, nil
